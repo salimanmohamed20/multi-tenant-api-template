@@ -7,10 +7,11 @@ use App\Models\User;
 
 Route::tenanted(function (Router $router) {
 
+    $router->post("login", \App\Http\Controllers\Api\Auth\LoginController::class);
     $router->get('users', function () {
-        return response()->json(User::all());
+        return response()->json(User::with('organization')->get());
     });
 
-    $router->post("login", \App\Http\Controllers\Api\Auth\LoginController::class);
+    $router->post("teams", \App\Http\Controllers\Api\V1\StoreTeamController::class)->middleware('auth:sanctum');
 
 });
